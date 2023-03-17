@@ -1,24 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
+import HeaderPage from './components/HeaderPage';
+import { Route, Switch } from 'react-router-dom';
+import LoginPage from './components/LoginPage';
+import HomePage from './components/HomePage';
+import { UserContext } from './components/UserContext';
+import { useState } from 'react';
+import PostsPage from './components/PostsPage';
+import WritePage from './components/WritePage';
+import ReadPage from './components/ReadPage';
+import UpdatePage from './components/UpdatePage';
 
 function App() {
+  const [user, setUser] = useState('');
   return (
+    <UserContext.Provider value={{user, setUser}}>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HeaderPage />
+
+      <Switch>
+        <Route path="/login" component={LoginPage} />
+        <Route path="/" component={HomePage} exact={true}/>
+        <Route path="/posts" component={PostsPage} exact={true} />
+        <Route path="/posts/write" component={WritePage}/>
+        <Route path="/posts/:id" component={ReadPage} exact={true}/>
+        <Route path="/posts/update/:id" component={UpdatePage}/>
+      </Switch>
     </div>
+    </UserContext.Provider>
   );
 }
 
